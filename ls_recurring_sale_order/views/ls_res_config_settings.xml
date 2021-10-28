@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_rso" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.rso</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="0"/>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='sale_ebay']" position="after">
+                    <div id="rso">
+                            <h2>Recurring Order Configuration</h2>
+                            <div class="row mt16 o_settings_container" name="rso_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" title="Configure RSO to Odoo" id="rso_odoo">
+                                    <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="sale_config"/>
+                                    <div class="text-muted">
+                                        Configuration for new sale order
+                                    </div>
+                                    <div class="mt16">
+                                        <field name="sale_config" class="o_light_label" widget="radio"/>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row mt16 o_settings_container" name="rso_sale_odoo_container">
+                                    <div class="col-12 col-lg-6 o_setting_box" title="Configure RSO to Odoo" id="rso_sale_odoo">
+                                        <div class="o_setting_left_pane">
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="when_sale_create"/>
+                                        <div class="text-muted">
+                                            When To create Next Sale Order
+                                        </div>
+                                        <div class="mt16">
+                                            <field name="when_sale_create" class="o_light_label" widget="radio"/>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

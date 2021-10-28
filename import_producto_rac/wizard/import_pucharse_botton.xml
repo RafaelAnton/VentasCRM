@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+             <record id="line_purchase_view_form" model="ir.ui.view">
+            <field name="name">line.view.form.inherit.purchase</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <header>
+                    <button name="purchase_line" string="Importar lienas" type="object" class="btn-secondary"  style="background-color:#b7ff8a"/>
+                </header>
+            </field>
+        </record>
+    </data>
+</odoo>

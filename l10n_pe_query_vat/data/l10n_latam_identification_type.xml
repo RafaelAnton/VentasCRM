@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <record model='l10n_latam.identification.type' id='l10n_latam_base.it_vat'>
+            <field name='name'>RUC</field>
+            <field name='description'>Registro Único de Contribuyentes</field>
+        </record>
+    </data>
+</odoo>

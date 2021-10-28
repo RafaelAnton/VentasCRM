@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="view_partner_form_inherit_ruc" model="ir.ui.view">
+			<field name="name">res.partner.form.inherit.ruc</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form/sheet" position="before">
+					<header>
+						<field name="related_identification" invisible="1"/>
+						<button string="Consultar RUC" name="verify_ruc" type="object" class="oe_read_only btn-info" attrs="{'invisible': [('related_identification', '!=', '6')]}"/>
+						<button string="Consultar RENIEC" name="verify_dni" type="object" class="oe_read_only btn-info" attrs="{'invisible': [('related_identification', '!=', '1')]}" />
+					</header>
+				</xpath>
+->
+			</field>
+		</record>
+		<record id="multiple_verify_ruc" model="ir.actions.server">
+			<field name="name">Consulta RUC multiple</field>
+			<field name="model_id" ref="base.model_res_partner"/>
+			<field name="binding_model_id" ref="base.model_res_partner"/>
+			<field name="state">code</field>
+			<field name="code">action = records.verify_ruc()</field>
+		</record>
+	</data>
+</odoo>

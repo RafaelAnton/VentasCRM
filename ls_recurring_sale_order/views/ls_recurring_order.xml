@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sale_recurring_order_view_list" model="ir.ui.view">
+        <field name="name">recurring.order.list</field>
+        <field name="model">recurring.order</field>
+        <field name="arch" type="xml">
+          <tree string="Sales Recurring">
+          	<field name="sequence" readonly="1"/>
+            <field name="partner_id" />
+            <field name="start_date" />
+            <field name="end_date" />
+            <field name="company_id"/>
+            <field name="state"/>
+          </tree>
+        </field>
+    </record>
+
+
+    <!--==========Filter For Sale Recurring==============-->
+    <record id="view_sales_recurring_filter" model="ir.ui.view">
+        <field name="name">recurring.order.list.select</field>
+        <field name="model">recurring.order</field>
+        <field name="arch" type="xml">
+            <search string="Search Sales Recurring">
+                <field name="name" string="Order" filter_domain="['|', '|', ('name', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id"/>
+                <field name="recurring_order_lines" string="Product" filter_domain="[('recurring_order_lines.product_id', 'ilike', self)]"/>
+
+                <filter string="My Orders" domain="[('user_id', '=', uid)]" name="my_sale_recurring_filter"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Salesperson" name="salesperson" domain="[]" context="{'group_by': 'user_id'}"/>
+                    <filter name="customer" string="Customer" domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Order Date" name="order_month" domain="[]" context="{'group_by': 'start_date'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+
+
+	<!--================Sale Recurring Form===============-->
+	<record id="view_sale_recurring_order_form" model="ir.ui.view">
+            <field name="name">recurring.order.form</field>
+            <field name="model">recurring.order</field>
+            <field name="arch" type="xml">
+              <form string="Sales Recurring" >
+                <header>
+                	<button name="generate_sale_order" string="Generate RFQ" class="oe_highlight" states="draft" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="running,expired"/>
+                    <button name="action_draft" string="Set to Quotation" type="object" states="cancel"/>
+                    <button name="create_manual_sale_order" type="object" string="Create Sale Order" states="running" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,running,expired,complete"/>
+
+                </header>
+                <sheet>
+                	<div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_orders"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('sale_count', '=', 0)]}">
+                            <field name="sale_count" widget="statinfo" string="Sales"/>
+                        </button>
+                        <button name="action_view_sale_confirm_orders" type="object" class="oe_stat_button" icon="fa-pencil-square-o" context="{'default_confirmed_sale_order': True}" attrs="{'invisible': [('sale_confirm_order', '=', 0)]}">
+                                <field name="sale_confirm_order" widget="statinfo" string="Running Sale Orders" />
+                            </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="sale_header">
+                        <group name="partner_details">
+                            <!-- <field name="name"/> -->
+                            <field name="partner_id"/>
+                            <field name="partner_invoice_id"/>
+                            <field name="partner_shipping_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="hide_button" invisible="1"/>
+                        </group>
+                        <group>
+                            <group class="oe_inline" col="3">
+                                <label for="interval" string="Interval" class="oe_inline" style="font-weight: bold;width:70% !important;font-size:1.08333333rem;"/>
+                                <field name="interval" class="oe_inline" nolabel="1"/>
+                                <field name="interval_option" nolabel="1" class="oe_inline"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="show_update_pricelist" invisible="1"/>
+                            <label for="pricelist_id" groups="product.group_product_pricelist"/>
+                            <div groups="product.group_product_pricelist" class="o_row">
+                                <field name="pricelist_id" options="{'no_open':True,'no_create': True}"/>
+                                <button name="update_prices" type="object"
+                                    string=" Update Prices"
+                                    help="Recompute all prices based on this pricelist"
+                                    class="btn-link mb-1 px-0" icon="fa-refresh"
+                                    confirm="This will update all unit prices based on the currently set pricelist."
+                                    attrs="{'invisible': ['|', ('show_update_pricelist', '=', False), ('state', 'in', ['sale', 'done','cancel'])]}"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines" name="order_lines">
+                            <field name="recurring_order_lines" widget="section_and_note_one2many" mode="tree,form"
+                                attrs="{'readonly': [('state', 'in', ('running'))]}">
+                                <tree string="Sales Order Lines" editable="bottom">
+                                    <control>
+                                        <create name="add_product_control" string="Add a product"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="sequence" widget="handle" />
+                                    <field name="product_id" options="{'no_open': True}" force_save="1"
+                                        domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                        widget="product_configurator"
+                                    />
+                                    <field name="name" widget="section_and_note_text" optional="show"/>
+
+                                    <field
+                                        name="product_uom_qty"
+                                        context="{ 'partner_id': parent.partner_id, 'quantity': product_uom_qty,
+                                           'uom': product_uom, 'company_id': parent.company_id
+                                        }"
+                                    />
+
+                                    <field name="product_uom" force_save="1" string="UoM"
+                                        context="{'company_id': parent.company_id}" groups="uom.group_uom" options='{"no_open": True}' optional="show"
+                                    />
+                                    <field name="price_unit" attrs="{'readonly': [('product_uom_qty', '&gt;', 0)]}"
+                                    />
+                                    <field
+                                        name="tax_id"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                                        optional="show"
+                                    />
+                                    <field name="discount"/>
+                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="company_id" invisible="1"/>
+                                </tree>
+
+                            </field>
+                        </page>
+                        <page string="Other Info" name="other_information">
+                            <group>
+                                <group name="sales_person" string="Sales">
+                                    <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="reference" readonly="1" attrs="{'invisible': [('reference', '=', False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+              </form>
+            </field>
+        </record>
+
+
+    <record id="action_recurring_order" model="ir.actions.act_window">
+        <field name="name">Recurring Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">recurring.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="sale_recurring_order_view_list"/>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new recurring, the first step of a new sale!
+            </p><p>
+                Once the recurring is confirmed, it is used to generate a sales order.<br/>
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_sale_recurring_order"
+            name="Recurring Orders"
+            action="action_recurring_order"
+            parent="sale.sale_order_menu"
+            sequence="10"/>
+</odoo>
