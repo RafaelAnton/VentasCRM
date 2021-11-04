@@ -28,7 +28,8 @@
         'data/paperformat.xml',
         'views/views.xml',
         'views/templates.xml',
-        'reports/einvoice_ticket.xml'
+        'reports/einvoice_ticket.xml',
+        'reports/einvoice_a4.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

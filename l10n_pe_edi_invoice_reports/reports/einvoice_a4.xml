@@ -1,0 +1,333 @@
+<odoo>
+    <data>
+        <template id="cpe_a4_document">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page {
+                    font-size: 14px;
+                    font-family: sans-serif;
+                    }
+
+                    .box-title{
+                    border: 3px solid #3e423f;
+                    }
+
+                    .report-logo{
+                    max-height:125px;
+                    }
+
+                    .custom-items {
+                    list-style-type: none;
+                    padding-left: 0px;
+                    }
+
+                    .custom-items .title {
+                    font-size: 23px;
+                    }
+
+                    .box-invoice {
+                    border: 3px solid black;
+                    background: #dedede;
+                    font-size: 11px;
+                    font-weight: bold;
+                    display: block;
+                    }
+
+                    .box-invoice .custom-items {
+                    font-size: 14px;
+                    display: block;
+                    }
+
+                    .company-label, .invoice-type {
+                    font-weight: bolder;
+                    }
+
+                    .company-label {
+                    font-size: 14px;
+                    }
+
+                    .invoice-type {
+                    font-size: 18px;
+                    border: 2px solid gray;
+                    background: #ededed;
+                    border-radius: 5px;
+                    display:block;
+                    height:200px;
+                    }
+
+                    .invoice-type .custom-items{
+                    margin-top: 19px;
+                    }
+
+                    .company-label .address {
+                    font-size: 11px;
+                    color: #3e423f;
+                    }
+
+                    .header-invoice {
+                    border: 1px solid grey;
+                    border-radius: 5px;
+                    }
+
+                    .footer-divider {
+                    border-top: 3px solid grey;
+                    }
+
+                    .footer-invoice {
+                    border: 2px solid grey;
+                    color: #3e423f;
+                    font-weight: bold;
+                    }
+
+                    .detail-invoice th {
+                    font-size: 15px;
+                    border: 1px solid grey;
+                    }
+
+                    .detail-invoice td {
+                    font-size: 14px;
+                    border-left: 1px solid grey;
+                    border-right: 1px solid grey;
+                    }
+                    .detraccion {
+                    font-size: 12px;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <t t-set="company"
+                           t-value="o.company_id.partner_id"/>
+                        <t t-set="company_address"
+                           t-value="o.company_id.partner_id.street"/>
+                        <t t-set="partner"
+                           t-value="o.partner_id.parent_id and o.partner_id.parent_id or o.partner_id"/>
+                        <t t-set="partner_address"
+                           t-value="o.partner_id"/>
+                        <div class="row mb-3">
+                            <div class="col-8 company-label p-2">
+                                <div class="row">
+                                    <div t-if="o.company_id.logo">
+                                        <img class="report-logo"
+                                             t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul class="custom-items col pl-2">
+                                        <li class="mt-1"><span t-field="company.name"/></li>
+                                        <li class="mt-1">RUC: <span t-field="company.vat"/></li>
+<!--                                        <li t-if="company_address.street" class="address mt-1">-->
+<!--                                            <span t-esc="company_address.street"/>-->
+<!--                                        </li>-->
+<!--                                        <li t-if="company_address.phone" class="address mt-1">-->
+<!--                                            <i class="fa fa-phone-square"></i> <span t-esc="company_address.phone"/>-->
+<!--                                        </li>-->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center p-0">
+                                <div class="invoice-type p-1">
+                                    <ul class="custom-items">
+                                        <li t-if="o.state == 'draft'">BORRADOR</li>
+                                        <li t-if="o.name != '/'"><span t-esc="'RUC: %s' % o.company_id.vat"/></li>
+<!--                                        <li t-if="o.name != '/'">-->
+<!--                                            <span t-esc="'%s' % o.edi_type_id.name.upper()"/><br/>-->
+<!--                                            <span>ELECTRÓNICA</span>-->
+<!--                                        </li>-->
+<!--                                        <li t-if="o.name != '/'" class="my-2 title"><span t-field="o.cpe_number"/></li>-->
+                                        <li class="mb-1">Fecha: <span t-field="o.invoice_date"/></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="header-invoice row mb-3">
+                            <div class="col-6 p-2">
+                                <ul class="custom-items">
+                                    <li><strong>Señor(es):</strong> <span t-field="partner.name"/></li>
+                                    <li><strong>RUC/DNI:</strong> <span t-field="partner.vat"/></li>
+                                    <li t-if="partner_address.street"><strong>Dirección:</strong> <span
+                                            t-field="partner_address.street"></span></li>
+                                    <!--<li t-if="partner_address.district_id"><strong>Distrito:</strong> <span t-field="parnter_address.district_id"></span></li>-->
+                                </ul>
+                            </div>
+                            <div class="col-6 p-2">
+                                <ul class="custom-items">
+                                    <li><strong>Fecha de emisión:</strong> <span t-field="o.invoice_date"/></li>
+                                    <li><strong>Fecha de venc:</strong> <span t-field="o.invoice_date_due"/></li>
+                                    <li t-if="o.invoice_payment_term_id"><strong>Días pago:</strong> <span t-field="o.invoice_payment_term_id"/></li>
+                                    <li><strong>Moneda:</strong> <span
+                                            t-esc="'DÓLARES AMERICANOS' if o.currency_id.name == 'USD' else 'SOLES'"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="detail-invoice col-12">
+                                <thead>
+                                    <tr>
+                                        <th class="text-right px-1 py-2">Item</th>
+                                        <th class="text-right px-1 py-2">Código</th>
+                                        <th class="text-left px-1 py-2">Descripción</th>
+                                        <th class="text-right px-1 py-2">Und</th>
+                                        <th class="text-right px-1 py-2">Cantidad</th>
+                                        <th class="text-right px-1 py-2">PU</th>
+                                        <th class="text-right px-1 py-2">Dcto (%)</th>
+                                        <th class="text-right px-1 py-2">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="enumerate(o.invoice_line_ids, 1)" t-as="line">
+                                        <t t-set="idx" t-value="line[0]"/>
+                                        <t t-set="item" t-value="line[1]"/>
+                                        <t t-set="product" t-value="item.product_id"/>
+
+                                        <td class="text-right p-1">
+                                            <span t-esc="idx"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-esc="product.default_code"/>
+                                        </td>
+                                        <td class="text-left p-1">
+                                            <span t-esc="item.name"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-field="item.product_uom_id"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-esc="item.quantity"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-esc="item.price_unit"
+                                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-esc="item.discount or ''"/>
+                                        </td>
+                                        <td class="text-right p-1">
+                                            <span t-esc="item.price_subtotal"
+                                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <t t-if="len(o.invoice_line_ids) &lt; 6">
+                                        <t t-set="dummies" t-value="range(6 - len(o.invoice_line_ids))"/>
+                                        <t t-foreach="dummies" t-as="dummy">
+                                            <tr>
+                                                <td>
+                                                    <span>&amp;nbsp;</span>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                                <td>
+                                                    <span/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+<!--                                    <tr t-if="o.einv_detraccion_id.exists()">-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                        <td class="text-center p-1 detraccion" colspan="2">-->
+<!--                                            <span t-raw="o.get_detraccion_label()"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                        <td class="text-right p-1"></td>-->
+<!--                                    </tr>-->
+                                    <tr class="footer-divider">
+<!--                                        <td class="text-left p-2" colspan="3" rowspan="6">-->
+<!--                                            <ul class="custom-items">-->
+<!--                                                <li><img style="max-width:120px"-->
+<!--                                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.qr_code, 120, 120)"/></li>-->
+<!--                                                <li clasS="mt-1"><span t-field="o.hash_value"/></li>-->
+<!--                                            </ul>-->
+<!--                                        </td>-->
+                                        <td class="text-right p-1" colspan="4">
+                                            <strong>OP. EXONERADAS</strong>
+                                        </td>
+<!--                                        <td class="text-right p-1" colspan="1">-->
+<!--                                            <span t-field="o.einv_amount_exonerated"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right p-1" colspan="4">-->
+<!--                                            <strong>OP. INAFECTAS</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-right p-1" colspan="1">-->
+<!--                                            <span t-field="o.einv_amount_unaffected"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right p-1" colspan="4">-->
+<!--                                            <strong>OP. GRAVADAS</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-right p-1" colspan="1">-->
+<!--                                            <span t-field="o.einv_amount_base"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+                                        <td class="text-right p-1" colspan="4">
+                                            <strong>SUBTOTAL</strong>
+                                        </td>
+                                        <td class="text-right p-1" colspan="1">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td class="text-right p-1" colspan="4">
+                                            <strong>IGV (18%)</strong>
+                                        </td>
+                                        <td class="text-right p-1" colspan="1">
+                                            <span t-field="o.amount_tax"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right p-1" colspan="4">
+                                            <strong>IMPORTE TOTAL</strong>
+                                        </td>
+                                        <td class="text-right p-1" colspan="1">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+<!--                                        <td class="footer-invoice text-right p-2" colspan="9">-->
+<!--                                            <span t-esc="'SON %s' % o.amount_total_words"/>-->
+<!--                                        </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="report_cpe_a4"
+                string="CPE: Formato A4"
+                model="account.move"
+                report_type="qweb-pdf"
+                name="l10n_pe_edi_invoice_reports.cpe_a4_document"
+                file="l10n_pe_edi_invoice_reports.cpe_a4_document"/>
+
+        <record id="report_cpe_a4" model="ir.actions.report">
+            <field name="paperformat_id" ref="l10n_pe_edi_invoice_reports.a4_paperformat"/>
+        </record>
+    </data>
+</odoo>
