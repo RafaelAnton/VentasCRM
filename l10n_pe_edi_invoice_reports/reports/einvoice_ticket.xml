@@ -1,0 +1,153 @@
+<odoo>
+    <data>
+        <template id="einvoice_move_ticket">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="width:80mm">
+                        <div style="width:100%; margin:0; font-size:12px; font-family=sans-serif;">
+                            <div style="text-align:center; font-size: 13px;">
+                                <strong>
+                                    <span t-field="o.company_id.name"/>
+                                </strong>
+                                <br/>
+                                <strong>
+                                    <span t-esc="'RUC: %s' % o.company_id.vat"/>
+                                </strong>
+                                <br/>
+                                <span t-field="o.company_id.partner_id.street"/>
+                                <span t-field="o.company_id.partner_id.city"/>
+                                <div style="width:100%; border: 1px dashed black; margin-top:5px; margin-bottom:5px"></div>
+                                <strong>
+                                    <!--                                    <span t-if="o.tipo_documento.code =='01'">FACTURA ELECTRONICA</span>-->
+                                    <!--                                    <span t-if="o.tipo_documento.code =='02'">BOLETA  ELECTRONICA</span>-->
+
+                                    <span t-esc="'COMPROMANTE ELECTRONICO: %s' % o.name"/>
+                                </strong>
+                                <br/>
+                                <div style="width:100%; border: 1px dashed black; margin-top:5px; margin-bottom:5px"></div>
+
+                            </div>
+                        </div>
+
+                        <!--                        DATOS DE CLIENTE-->
+                        <div>
+                            <p> Fecha:
+                                <span t-field="o.invoice_date"/>
+                            </p>
+                            <span>Adquirente</span>
+                            <br/>
+                            <span t-field="o.partner_id.l10n_latam_identification_type_id.name"/>
+                            <span t-field="o.partner_id.vat"/>
+                            <br/>
+                        </div>
+                        <!--                        DATOS DE LINEAS DE PRODUCTO-->
+                        <div style="width:100%; border: 1px dashed black; margin-top:5px; margin-bottom:5px"></div>
+                        <div>
+                            <t t-set="amount_round" t-value="0.0"/>
+
+                            <table style="margin:0 auto; width=100%">
+                                <colgroup>
+                                    <col style="width:10%"/>
+                                    <col style="width:50%"/>
+                                    <col style="width:20%"/>
+                                    <col style="width:20%"/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: right; padding:2px">Cant.</th>
+                                        <th style="text-align:right; padding:2px">Descrip.</th>
+                                        <th style="text-align:right; padding:2px">P.U.</th>
+                                        <th style="text-align:right; padding:2px">Total.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.invoice_line_ids" t-as="detalle">
+                                        <t t-if="detalle.name != 'REDONDEO'">
+                                            <td style="text-align:right; padding:2px">
+                                                <span t-field="detalle.quantity"/>
+                                            </td>
+                                            <td style="text-align:right; padding:2px">
+                                                <span t-field="detalle.name"/>
+                                            </td>
+                                            <td style="text-align:right; padding:2px">
+                                                <span t-field="detalle.price_unit"/>
+                                            </td>
+                                            <td style="text-align:right; padding:2px">
+                                                <span t-field="detalle.price_subtotal"/>
+                                            </td>
+                                        </t>
+                                        <t t-if="detalle.name == 'REDONDEO'">
+                                            <t t-set="amount_round" t-value="amount_round + detalle.price_subtotal"/>
+                                        </t>
+                                    </tr>
+                                </tbody>
+                                <tfoot style="text-align:center;font-size: 12px;">
+                                    <tr>
+                                        <td colspan="4">
+                                            <hr/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" style="text-align:right">
+                                            IGV (18%)
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="o.amount_tax"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" style="text-align:right">
+                                            Subtotal
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="o.currency_id.symbol"/> <span
+                                                t-esc="o.amount_total - amount_round"/>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="3" style="text-align:right">
+                                            Total
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div style="width:100%; border: 1px dashed black; margin-top:5px; margin-bottom:5px"></div>
+                        <p style="font-size: 14px;">
+                            <strong>
+                                Usuario:
+                                <span t-field="o.user_id"/>
+                                <br/>
+                                Hora:
+                                <span t-field="o.create_date"/>
+                            </strong>
+                        </p>
+                        <div style="width:100%; border: 1px dashed black; margin-top:5px; margin-bottom:5px"></div>
+                        <hr/>
+                        <div style="tex-align:center">
+                            <span>Gracias por su visita, vuelva pronto...</span>
+                        </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <report id="report_einvoice_move_ticket"
+            string="Facturacion Electronica Ticket"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="l10n_pe_edi_invoice_reports.einvoice_move_ticket"
+            file="l10n_pe_edi_invoice_reports.einvoice_move_ticket"/>
+
+    <record id="report_einvoice_move_ticket" model="ir.actions.report">
+        <field name="paperformat_id" ref="l10n_pe_edi_invoice_reports.ticket_paperformar"/>
+    </record>
+</data>
+        </odoo>
