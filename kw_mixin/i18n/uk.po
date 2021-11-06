@@ -1,0 +1,258 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* kw_mixin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-21 14:49+0000\n"
+"PO-Revision-Date: 2021-09-21 14:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "April"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "August"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_clean_up_mixin
+msgid "Clean up Mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_dow_mixin
+msgid "Day of week Mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "December"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_clean_up_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_datetime_extract_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_dow_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_month_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_quarter_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_translit_ua_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_week_mixin__display_name
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_year_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_datetime_extract_mixin
+msgid "Extract date or datetime"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "February"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Friday"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_clean_up_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_datetime_extract_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_dow_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_month_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_quarter_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_translit_ua_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_week_mixin__id
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_year_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "January"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "July"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "June"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_clean_up_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_datetime_extract_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_dow_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_month_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_quarter_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_translit_ua_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_week_mixin____last_update
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_year_mixin____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "March"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "May"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Monday"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_month_mixin__month
+msgid "Month"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_month_mixin__month_str
+msgid "Month (xx)"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_month_mixin
+msgid "Month mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "November"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "October"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_quarter_mixin__quarter
+msgid "Quarter"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_quarter_mixin__quarter_str
+msgid "Quarter (Qx)"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_quarter_mixin
+msgid "Quarter mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Saturday"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "September"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Sunday"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Thursday"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_translit_ua_mixin
+msgid "Translit UA Mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Tuesday"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Wednesday"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_week_mixin__week
+msgid "Week"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_week_mixin__week_str
+msgid "Week (Wxx)"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_week_mixin
+msgid "Week Mixin"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Wrong month value: must be from 1 to 12"
+msgstr ""
+
+#. module: kw_mixin
+#: code:addons/kw_mixin/models/date_part.py:0
+#, python-format
+msgid "Wrong quarter value: must be from 1 to 4"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_year_mixin__year
+msgid "Year"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model.fields,field_description:kw_mixin.field_kw_year_mixin__year_str
+msgid "Year (xxxx)"
+msgstr ""
+
+#. module: kw_mixin
+#: model:ir.model,name:kw_mixin.model_kw_year_mixin
+msgid "Year Mixin"
+msgstr ""

@@ -1,0 +1,15 @@
+<odoo>
+    <record id="kw_phone_search_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form (kw_phone_search)</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="5"/>
+        <field name="inherit_id" ref="kw_phone.kw_phone_res_config_settings_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='module_kw_phone_search_o_setting_right_pane']"
+                   position="inside">
+                <button name="format_all_kw_phone_number_name" type="object"
+                        string="Re-Generate search data"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
